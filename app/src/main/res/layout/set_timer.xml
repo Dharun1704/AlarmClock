@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/timeSetLayout"
+    android:background="#252525">
+
+    <View
+        android:layout_width="30dp"
+        android:layout_height="3dp"
+        android:background="@drawable/timer_start"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/topView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scroll to select time for the timer"
+        android:fontFamily="@font/nunito"
+        android:textColor="#FFF"
+        android:id="@+id/tm_desc"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/topView"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/tm_desc"
+        android:orientation="horizontal"
+        android:id="@+id/timePickerLayout"
+        android:gravity="center">
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:id="@+id/hrPicker"
+            android:theme="@style/NumberPickerTheme" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text=" : "
+            android:gravity="center"
+            android:textColor="#FFF"
+            android:textSize="40sp" />
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:id="@+id/minPicker"
+            android:theme="@style/NumberPickerTheme" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text=" : "
+            android:gravity="center"
+            android:textColor="#FFF"
+            android:textSize="40sp" />
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:id="@+id/secPicker"
+            android:theme="@style/NumberPickerTheme" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="45dp"
+        android:background="@drawable/timer_start"
+        android:text="Set Timer"
+        android:id="@+id/timerStart"
+        android:textAllCaps="false"
+        android:textColor="#FFF"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/nunito"
+        android:layout_below="@id/timePickerLayout"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
