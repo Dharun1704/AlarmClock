@@ -56,7 +56,7 @@ public class StopWatchActivity extends AppCompatActivity implements NavigationVi
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Stop watch");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setBackgroundColor(Color.parseColor("#252525"));
 

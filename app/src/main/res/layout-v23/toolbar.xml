@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:id="@+id/toolbar"
+    android:gravity="center"
     android:theme="@style/ThemeOverlay.AppCompat.Dark" >
 
 </androidx.appcompat.widget.Toolbar>

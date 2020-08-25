@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Alarm");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setBackgroundColor(Color.parseColor("#252525"));
 
@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
         alarmCancel = findViewById(R.id.alarm_cancel);
         noAlarmFound = findViewById(R.id.noAlarmFound);
         btnAlarmAdd = findViewById(R.id.btnAdd);
+
+        checkAlarm();
 
         btnAlarmAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,23 +162,6 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
         startAlarm(c);
     }
 
-    private void scheduleAlarm(int dayOfWeek) {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-
-        if(calendar.getTimeInMillis() < System.currentTimeMillis()) {
-            calendar.add(Calendar.DAY_OF_YEAR, 7);
-        }
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intent, 0);
-
-        assert alarmManager != null;
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pendingIntent);
-    }
-
     private void checkAlarm() {
 
         SharedPreferences sHour = getSharedPreferences("AlarmHour", MODE_PRIVATE);
@@ -193,6 +178,8 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
             c.add(Calendar.DATE, 1);
             alarmDays.setText("Tomorrow");
         }
+        else
+            alarmDays.setText("Today");
 
         if (almHour == 0 && almMinute == 0 && almPeriod == null) {
             noAlarmFound.setVisibility(View.VISIBLE);
@@ -226,7 +213,11 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
 
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1);
+            alarmDays.setText("Tomorrow");
         }
+        else
+            alarmDays.setText("Today");
+
         assert alarmManager != null;
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
     }

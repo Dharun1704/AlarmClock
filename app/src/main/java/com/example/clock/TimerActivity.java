@@ -58,7 +58,7 @@ public class TimerActivity extends AppCompatActivity implements SetTimerSheet.Bo
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Timer");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setBackgroundColor(Color.parseColor("#252525"));
 
