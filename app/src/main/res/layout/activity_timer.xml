@@ -48,6 +48,7 @@
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:src="@drawable/ic_play"
+            android:tint="#FFF"
             android:id="@+id/play_tm"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
@@ -74,6 +75,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="65dp"
             android:layout_marginStart="50dp"
+            android:tint="#FFF"
             android:background="#252525"/>
 
     </RelativeLayout>

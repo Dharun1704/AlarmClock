@@ -4,17 +4,26 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -30,7 +39,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements SetAlarmSheet.AlarmSetListener, NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements SetAlarmSheet.AlarmSetListener,
+        NavigationView.OnNavigationItemSelectedListener{
+
+    public int PERMISSION_CODE = 1;
+
+    private static final String TAG = "MainActivity";
 
     private LinearLayout TimeLayout;
     private ActionBarDrawerToggle toggle;
@@ -44,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
 
     int almHour = 0, almMinute = 0;
     String almPeriod = null;
+    String ringtone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +92,9 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
         noAlarmFound = findViewById(R.id.noAlarmFound);
         btnAlarmAdd = findViewById(R.id.btnAdd);
 
+        SharedPreferences preferences = getSharedPreferences("RingtoneName", Context.MODE_PRIVATE);
+        ringtone = preferences.getString("fRingtone", "");
+
         btnAlarmAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,8 +102,6 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
                 sheet.show(getSupportFragmentManager(), "AlarmSheet");
             }
         });
-
-        checkAlarm();
 
         alarmCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
                 checkAlarm();
             }
         });
-
     }
 
     @Override
@@ -135,16 +150,35 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
 
         almMinute = minute;
 
+        SharedPreferences preferences = getSharedPreferences("RingtoneName", Context.MODE_PRIVATE);
+        ringtone = preferences.getString("fRingtone", "");
+
         SharedPreferences sMinute = getSharedPreferences("AlarmMinute", MODE_PRIVATE);
         SharedPreferences.Editor editor = sMinute.edit();
         editor.putInt("almMinute", almMinute);
         editor.apply();
 
-
         alarmTime.setText(String.format("%02d", almHour) + ":" + String.format("%02d", almMinute));
         alarmPeriod.setText(almPeriod);
         checkAlarm();
         startAlarm(c);
+    }
+
+    private void scheduleAlarm(int dayOfWeek) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+
+        if(calendar.getTimeInMillis() < System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 7);
+        }
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intent, 0);
+
+        assert alarmManager != null;
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pendingIntent);
     }
 
     private void checkAlarm() {
@@ -167,11 +201,13 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
         if (almHour == 0 && almMinute == 0 && almPeriod == null) {
             noAlarmFound.setVisibility(View.VISIBLE);
             TimeLayout.setVisibility(View.GONE);
+            btnAlarmAdd.setImageResource(R.drawable.ic_add);
         }
 
         else {
             noAlarmFound.setVisibility(View.GONE);
             TimeLayout.setVisibility(View.VISIBLE);
+            btnAlarmAdd.setImageResource(R.drawable.ic_edit);
 
             if (almHour > 12) {
                 almHour -= 12;
@@ -189,11 +225,11 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
     private void startAlarm(Calendar c) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+        intent.putExtra("RingtonePath", ringtone);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intent, 0);
 
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1);
-            alarmDays.setText("Tomorrow");
         }
         assert alarmManager != null;
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);

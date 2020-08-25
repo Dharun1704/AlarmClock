@@ -69,7 +69,7 @@ public class StopWatchActivity extends AppCompatActivity implements NavigationVi
 
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(Color.parseColor("#DC143C"));
+        window.setStatusBarColor(Color.parseColor("#252525"));
         window.setNavigationBarColor(Color.parseColor("#252525"));
 
         lapContainer = findViewById(R.id.lapContainer);

@@ -32,95 +32,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:id="@+id/setRingtoneLayout"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical">
 
-        <Button
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/btnSunday"
-            android:text="S"
-            android:layout_margin="5dp"
-            android:textColor="#FFF"
             android:fontFamily="@font/nunito"
-            android:background="@drawable/bg_repeat"/>
-        <Button
-            android:layout_width="0dp"
+            android:textColor="#b6b6b6"
+            android:text="Ringtone" />
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/btnMonday"
-            android:text="M"
-            android:textColor="#FFF"
-            android:layout_margin="5dp"
             android:fontFamily="@font/nunito"
-            android:background="@drawable/bg_repeat"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/btnTuesday"
-            android:text="T"
-            android:layout_margin="5dp"
             android:textColor="#FFF"
-            android:fontFamily="@font/nunito"
-            android:background="@drawable/bg_repeat"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/btnWednesday"
-            android:text="W"
-            android:layout_margin="5dp"
-            android:textColor="#FFF"
-            android:fontFamily="@font/nunito"
-            android:background="@drawable/bg_repeat"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/btnThursday"
-            android:text="Th"
-            android:textAllCaps="false"
-            android:layout_margin="5dp"
-            android:textColor="#FFF"
-            android:fontFamily="@font/nunito"
-            android:background="@drawable/bg_repeat"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/btnFriday"
-            android:text="F"
-            android:textColor="#FFF"
-            android:layout_margin="5dp"
-            android:textAllCaps="false"
-            android:fontFamily="@font/nunito"
-            android:background="@drawable/bg_repeat"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/btnSaturday"
-            android:text="Sa"
-            android:textAllCaps="false"
-            android:layout_margin="5dp"
-            android:textColor="#FFF"
-            android:fontFamily="@font/nunito"
-            android:background="@drawable/bg_repeat"/>
+            android:text="Default"
+            android:id="@+id/alarm_ringtone"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
     <ImageButton
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="40dp"
         android:src="@drawable/ic_done"
         android:id="@+id/btnAlarmSetDone"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/bg_alarmdone"
+        android:background="@drawable/bg_add"
         />
 
 </LinearLayout>

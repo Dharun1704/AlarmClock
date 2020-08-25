@@ -21,17 +21,19 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:id="@+id/stopwatchLayout"
-            android:layout_marginTop="80dp">
+            android:layout_marginTop="100dp">
 
             <TextView
-                android:layout_width="225dp"
-                android:layout_height="225dp"
+                android:layout_width="215dp"
+                android:layout_height="215dp"
                 android:gravity="center"
                 android:textSize="40sp"
+                android:fontFamily="@font/nunito"
+                android:textStyle="bold"
                 android:id="@+id/time_sw"
                 android:background="@drawable/stopwatch"
                 android:text="00:00:00"
-                android:textColor="#FFF" />
+                android:textColor="#252525" />
 
         </LinearLayout>
 
@@ -76,8 +78,8 @@
                 android:background="#252525"/>
 
             <ImageButton
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:src="@drawable/ic_play"
                 android:id="@+id/play_sw"
                 android:background="@drawable/stopwatch"/>
