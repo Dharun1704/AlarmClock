@@ -53,7 +53,7 @@ public class SetAlarmSheet extends BottomSheetDialogFragment {
                 dismiss();
                 alarmHr = alarmTime.getHour();
                 alarmMin = alarmTime.getMinute();
-                bListener.onSet(alarmHr, alarmMin);
+                bListener.onSet(alarmHr, alarmMin, fRingtone);
             }
         });
 
@@ -70,8 +70,6 @@ public class SetAlarmSheet extends BottomSheetDialogFragment {
                 ringtone.add("Mr.Bean theme");
                 ringtone.add("Giorno theme");
                 ringtone.add("Pirates of the Caribbean theme");
-                ringtone.add("Tom & Jerry theme");
-                ringtone.add("The good doctor theme");
 
                 new AlertDialog.Builder(getContext())
                         .setTitle("Select Ringtone")
@@ -110,7 +108,7 @@ public class SetAlarmSheet extends BottomSheetDialogFragment {
     }
 
     public interface AlarmSetListener {
-        void onSet(int hour, int minute);
+        void onSet(int hour, int minute, String ringtone);
     }
 
     @Override

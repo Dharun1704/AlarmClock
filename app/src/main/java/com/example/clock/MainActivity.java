@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
 
     int almHour = 0, almMinute = 0;
     String almPeriod = null;
-    String ringtone;
+    String alarmRingtone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +92,6 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
         alarmCancel = findViewById(R.id.alarm_cancel);
         noAlarmFound = findViewById(R.id.noAlarmFound);
         btnAlarmAdd = findViewById(R.id.btnAdd);
-
-        SharedPreferences preferences = getSharedPreferences("RingtoneName", Context.MODE_PRIVATE);
-        ringtone = preferences.getString("fRingtone", "");
 
         btnAlarmAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
     }
 
     @Override
-    public void onSet(int hour, int minute) {
+    public void onSet(int hour, int minute, String ringtone) {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, hour);
         c.set(Calendar.MINUTE, minute);
@@ -149,9 +147,7 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
         }
 
         almMinute = minute;
-
-        SharedPreferences preferences = getSharedPreferences("RingtoneName", Context.MODE_PRIVATE);
-        ringtone = preferences.getString("fRingtone", "");
+        alarmRingtone = ringtone;
 
         SharedPreferences sMinute = getSharedPreferences("AlarmMinute", MODE_PRIVATE);
         SharedPreferences.Editor editor = sMinute.edit();
@@ -225,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
     private void startAlarm(Calendar c) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
-        intent.putExtra("RingtonePath", ringtone);
+        intent.putExtra("alarmRingtone", alarmRingtone);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intent, 0);
 
         if (c.before(Calendar.getInstance())) {
@@ -242,6 +238,8 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
 
         assert alarmManager != null;
         alarmManager.cancel(pendingIntent);
+        AlarmReceiver al = new AlarmReceiver();
+        al.mediaPlayer.stop();
     }
 
     @Override
