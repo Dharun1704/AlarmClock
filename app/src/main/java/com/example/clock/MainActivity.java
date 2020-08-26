@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
         alarmCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 cancelAlarm();
 
                 almHour = 0;
@@ -143,6 +144,9 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
             almHour = hour - 12;
             almPeriod = "PM";
         }
+        else if (hour == 12 && minute > 0) {
+            almPeriod = "PM";
+        }
         else {
             almHour = hour;
             almPeriod = "AM";
@@ -156,18 +160,25 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
         editor.putInt("almMinute", almMinute);
         editor.apply();
 
+        SharedPreferences sRingtone = getSharedPreferences("AlarmRingtone", MODE_PRIVATE);
+        SharedPreferences.Editor editorR = sRingtone.edit();
+        editorR.putString("alarmRingtone", alarmRingtone);
+        editorR.apply();
+
         alarmTime.setText(String.format("%02d", almHour) + ":" + String.format("%02d", almMinute));
         alarmPeriod.setText(almPeriod);
         checkAlarm();
         startAlarm(c);
     }
 
-    private void checkAlarm() {
+    public void checkAlarm() {
 
         SharedPreferences sHour = getSharedPreferences("AlarmHour", MODE_PRIVATE);
         almHour = sHour.getInt("almHour", 0);
         SharedPreferences sMinute = getSharedPreferences("AlarmMinute", MODE_PRIVATE);
         almMinute = sMinute.getInt("almMinute", 0);
+        SharedPreferences sRingtone = getSharedPreferences("AlarmRingtone", MODE_PRIVATE);
+        alarmRingtone = sRingtone.getString("alarmRingtone", "");
 
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, almHour);
@@ -196,6 +207,9 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
                 almHour -= 12;
                 almPeriod = "PM";
             }
+            else if (almHour == 12 && almMinute > 0) {
+                almPeriod = "PM";
+            }
             else {
                 almPeriod = "AM";
             }
@@ -205,10 +219,9 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
         }
     }
 
-    private void startAlarm(Calendar c) {
+    public void startAlarm(Calendar c) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
-        intent.putExtra("alarmRingtone", alarmRingtone);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intent, 0);
 
         if (c.before(Calendar.getInstance())) {
@@ -222,15 +235,13 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
     }
 
-    private void cancelAlarm() {
+    public void cancelAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intent, 0);
 
         assert alarmManager != null;
         alarmManager.cancel(pendingIntent);
-        AlarmReceiver al = new AlarmReceiver();
-        al.mediaPlayer.stop();
     }
 
     @Override

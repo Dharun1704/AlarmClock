@@ -18,6 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AlarmScreen"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".StopWatchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
