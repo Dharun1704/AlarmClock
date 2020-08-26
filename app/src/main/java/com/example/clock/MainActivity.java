@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
         SharedPreferences sMinute = getSharedPreferences("AlarmMinute", MODE_PRIVATE);
         almMinute = sMinute.getInt("almMinute", 0);
         SharedPreferences sRingtone = getSharedPreferences("AlarmRingtone", MODE_PRIVATE);
-        alarmRingtone = sRingtone.getString("alarmRingtone", "");
+        alarmRingtone = sRingtone.getString("alarmRingtone", "Mr.Bean theme");
 
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, almHour);
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements SetAlarmSheet.Ala
 
     public void startAlarm(Calendar c) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intent, 0);
 
         if (c.before(Calendar.getInstance())) {

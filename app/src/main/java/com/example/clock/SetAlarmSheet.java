@@ -43,7 +43,7 @@ public class SetAlarmSheet extends BottomSheetDialogFragment {
 
         SharedPreferences preferences = requireActivity()
                 .getSharedPreferences("RingtoneName", Context.MODE_PRIVATE);
-        fRingtone = preferences.getString("fRingtone", "");
+        fRingtone = preferences.getString("fRingtone", "Mr.Bean theme");
 
         alarmRingtone.setText(fRingtone);
 

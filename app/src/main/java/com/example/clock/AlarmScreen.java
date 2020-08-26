@@ -123,6 +123,7 @@ public class AlarmScreen extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(AlarmScreen.this, "Oops! Wrong answer!", Toast.LENGTH_SHORT).show();
+                    numAns.setText("");
                     setNumbers();
 
                 }
@@ -143,10 +144,8 @@ public class AlarmScreen extends AppCompatActivity {
                 c = a + b;
                 break;
             case '-':
-                a = random.nextInt(100);
-                do {
-                    b = random.nextInt(100);
-                } while (b < a);
+                b = random.nextInt(100);
+                a = random.nextInt(100 - b) + b;
                 num1.setText(String.format("%02d", a));
                 num2.setText(String.format("%02d", b));
                 c = a - b;
