@@ -91,41 +91,40 @@ public class AlarmScreen extends AppCompatActivity {
         dismissAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (numAns.getText() == null)
+                if (numAns.getText().toString().equals(""))
                     Toast.makeText(AlarmScreen.this, "Enter valid answer", Toast.LENGTH_SHORT).show();
-                else
-                    userAns = Integer.parseInt(numAns.getText().toString());
-
-                if (userAns == c) {
-                    Toast.makeText(AlarmScreen.this, "Alarm dismissed", Toast.LENGTH_SHORT).show();
-                    mediaPlayer.stop();
-                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                    Intent i = new Intent(AlarmScreen.this, AlarmReceiver.class);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(AlarmScreen.this, 1, i, 0);
-
-                    assert alarmManager != null;
-                    alarmManager.cancel(pendingIntent);
-
-                    SharedPreferences sHour = getSharedPreferences("AlarmHour", MODE_PRIVATE);
-                    SharedPreferences.Editor editorH = sHour.edit();
-                    editorH.putInt("almHour", 0);
-                    editorH.apply();
-
-                    SharedPreferences sMinute = getSharedPreferences("AlarmMinute", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sMinute.edit();
-                    editor.putInt("almMinute", 0);
-                    editor.apply();
-
-                    Intent intent = new Intent(AlarmScreen.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                }
                 else {
-                    Toast.makeText(AlarmScreen.this, "Oops! Wrong answer!", Toast.LENGTH_SHORT).show();
-                    numAns.setText("");
-                    setNumbers();
+                    userAns = Integer.parseInt(numAns.getText().toString());
+                    if (userAns == c) {
+                        Toast.makeText(AlarmScreen.this, "Alarm dismissed", Toast.LENGTH_SHORT).show();
+                        mediaPlayer.stop();
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        Intent i = new Intent(AlarmScreen.this, AlarmReceiver.class);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(AlarmScreen.this, 1, i, 0);
 
+                        assert alarmManager != null;
+                        alarmManager.cancel(pendingIntent);
+
+                        SharedPreferences sHour = getSharedPreferences("AlarmHour", MODE_PRIVATE);
+                        SharedPreferences.Editor editorH = sHour.edit();
+                        editorH.putInt("almHour", 0);
+                        editorH.apply();
+
+                        SharedPreferences sMinute = getSharedPreferences("AlarmMinute", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sMinute.edit();
+                        editor.putInt("almMinute", 0);
+                        editor.apply();
+
+                        Intent intent = new Intent(AlarmScreen.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    } else {
+                        Toast.makeText(AlarmScreen.this, "Oops! Wrong answer!", Toast.LENGTH_SHORT).show();
+                        numAns.setText("");
+                        setNumbers();
+
+                    }
                 }
             }
         });
