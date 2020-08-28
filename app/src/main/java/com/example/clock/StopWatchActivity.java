@@ -79,6 +79,8 @@ public class StopWatchActivity extends AppCompatActivity implements NavigationVi
         play = findViewById(R.id.play_sw);
         restart = findViewById(R.id.restart_sw);
         lap = findViewById(R.id.lap_sw);
+        lap.setVisibility(View.INVISIBLE);
+        restart.setVisibility(View.INVISIBLE);
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +90,7 @@ public class StopWatchActivity extends AppCompatActivity implements NavigationVi
                     handler.postDelayed(updateTime, 0);
                     restart.setVisibility(View.INVISIBLE);
                     restart.setEnabled(false);
+                    lap.setVisibility(View.VISIBLE);
                     lap.setEnabled(true);
                     isResume = true;
                     lap.setVisibility(View.VISIBLE);
@@ -159,6 +162,8 @@ public class StopWatchActivity extends AppCompatActivity implements NavigationVi
                 lapContainer.removeAllViews();
                 restart.setVisibility(View.INVISIBLE);
                 restart.setEnabled(false);
+                lap.setVisibility(View.INVISIBLE);
+                lap.setEnabled(true);
             }
         });
     }
